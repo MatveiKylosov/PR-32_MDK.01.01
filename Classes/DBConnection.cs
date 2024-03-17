@@ -19,6 +19,7 @@ namespace VinylRecordsApplication.Classes
             sqlCommand.CommandText = SQL;
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
             sqlDataAdapter.Fill(dataTable);
+            return dataTable;
         }
     }
 }
