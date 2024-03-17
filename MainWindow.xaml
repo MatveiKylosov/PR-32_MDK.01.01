@@ -32,6 +32,5 @@
             </MenuItem>
         </Menu>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden" Margin="0,25,0,0"/>
-        
     </Grid>
 </Window>
