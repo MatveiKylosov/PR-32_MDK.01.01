@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VinylRecordsApplication.Classes;
 
 namespace VinylRecordsApplication.Pages.Manufacturer.Elements
 {
@@ -20,9 +22,37 @@ namespace VinylRecordsApplication.Pages.Manufacturer.Elements
     /// </summary>
     public partial class Manufacturer : UserControl
     {
-        public Manufacturer()
+        IEnumerable<Classes.Country> Countries = Country.AllContries();
+        Pages.Manufacturer.Main main;
+        Classes.Manufacturer manufacturer;
+
+        public Manufacturer(Classes.Manufacturer manufacturer, Pages.Manufacturer.Main main)
         {
             InitializeComponent();
+            tbName.Text = manufacturer.Name;
+            tbCountry.Text = Countries.Where(x => x.Id == manufacturer.CountryCode).First().Name;
+            tbPhone.Text = manufacturer.Phone;
+            tbEmail.Text = manufacturer.Mail;
+            this.manufacturer = manufacturer;
+            this.main = main;
+        }
+
+        private void EditManufacturer(object sender, RoutedEventArgs e) =>
+            MainWindow.mainWindow.OpenPage(new Pages.Manufacturer.Add(this.manufacturer));
+    
+        private void DeleteManufacturer(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show($"Удалить поставщика: {this.manufacturer.Name}?", "Уведомление", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                return;
+
+            if (Classes.Record.AllRecords().Where(x => x.IdManufacturer == manufacturer.Id).Count() > 0)
+                MessageBox.Show($"Поставщика {this.manufacturer.Name} невозможно удалить. Для начала удалите зависимости.", "Уведомление");
+            else
+            {
+                this.manufacturer.Delete();
+                main.manufacturerParent.Children.Remove(this);
+                MessageBox.Show($"Поставщик {this.manufacturer.Name} успешно удалена.", "Уведомление");
+            }
         }
     }
 }
