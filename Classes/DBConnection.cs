@@ -13,11 +13,11 @@ namespace VinylRecordsApplication.Classes
         public static DataTable Connection(string SQL)
         {
             DataTable dataTable = new DataTable("Datatable");
-            SqlConnection sqlConnection = new SqlConnection("server=127.0.0.1:Trusted_Connection=No;DataBase=VinylRecords;User=SA; PWD=Asdfg123");
+            SqlConnection sqlConnection = new SqlConnection("server=DESKTOP-7K0NDVP;Trusted_Connection=No;DataBase=VinylRecords;User=SA; PWD=Asdfg123");
             sqlConnection.Open();
             SqlCommand sqlCommand = sqlConnection.CreateCommand();
             sqlCommand.CommandText = SQL;
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
             sqlDataAdapter.Fill(dataTable);
             return dataTable;
         }

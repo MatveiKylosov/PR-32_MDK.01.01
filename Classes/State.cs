@@ -36,13 +36,14 @@ namespace VinylRecordsApplication.Classes
             if (Update == false)
             {
                 DBConnection.Connection($"INSERT INTO [dbo].[State] ([Name], [Subname], [Description]) " +
-                    $"VALUES (N'{this.Name}', N'{this.Subname}', N'{this.Description}';");
+                    $"VALUES (N'{this.Name}', N'{this.Subname}', N'{this.Description}')");
                 this.Id = AllState().Where(x => x.Name == this.Name && x.Subname == this.Subname && x.Description == this.Description).First().Id;
             }
-            else 
+            else
                 DBConnection.Connection($"UPDATE [dbo].[State] SET " +
-                    $"[Name] = N'{this.Name}', [Subname] = N'{this.Subname}', [Description] = N'{this.Description}' WHERE [Id] = {this.Id};");
+                    $"[Name] = N'{this.Name}', [Subname] = N'{this.Subname}', [Description] = N'{this.Description}' WHERE [Id] = {this.Id}");
         }
+
 
         public void Delete() => DBConnection.Connection($"DELETE FROM [dbo].[State] WHERE [Id] = {this.Id};");
     }

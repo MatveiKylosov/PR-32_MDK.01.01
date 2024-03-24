@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeOpenXml;
 
 namespace VinylRecordsApplication.Classes
 {
@@ -48,18 +50,10 @@ namespace VinylRecordsApplication.Classes
             {
                 Classes.DBConnection.Connection(
                     "INSERT INTO " +
-                        "[dbo].[Record](" +
-                        "[Name], " +
-                        "[Year]" +
-                        "[Format]" +
-                        "[Size]" +
-                        "[IdManufacturer], " +
-                        "[Price]" +
-                        "[IdState]" +
-                        "[Description]) " +
+                        "[dbo].Record " +
                     "VALUES(" +
                         $"N'{this.Name}', " +
-                        $"{this.Year}', " +
+                        $"{this.Year}, " + // исправлены кавычки
                         $"{this.Format}, " +
                         $"{this.Size}," +
                         $"{this.IdManufacturer}," +
@@ -90,7 +84,44 @@ namespace VinylRecordsApplication.Classes
                         $"WHERE [Id] = {this.Id}");
         }
 
+
         public void Delete()=>
             Classes.DBConnection.Connection($"DELETE FROM [dbo].[Record] WHERE [Id] = {this.Id};");
+
+        public void ExportToExcel(string path)
+        {
+            var records = AllRecords().ToList();
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Records");
+
+                worksheet.Cells[1, 1].Value = "Id";
+                worksheet.Cells[1, 2].Value = "Name";
+                worksheet.Cells[1, 3].Value = "Year";
+                worksheet.Cells[1, 4].Value = "Format";
+                worksheet.Cells[1, 5].Value = "Size";
+                worksheet.Cells[1, 6].Value = "IdManufacturer";
+                worksheet.Cells[1, 7].Value = "Price";
+                worksheet.Cells[1, 8].Value = "IdState";
+                worksheet.Cells[1, 9].Value = "Description";
+
+                for (int i = 0; i < records.Count; i++)
+                {
+                    worksheet.Cells[i + 2, 1].Value = records[i].Id;
+                    worksheet.Cells[i + 2, 2].Value = records[i].Name;
+                    worksheet.Cells[i + 2, 3].Value = records[i].Year;
+                    worksheet.Cells[i + 2, 4].Value = records[i].Format;
+                    worksheet.Cells[i + 2, 5].Value = records[i].Size;
+                    worksheet.Cells[i + 2, 6].Value = records[i].IdManufacturer;
+                    worksheet.Cells[i + 2, 7].Value = records[i].Price;
+                    worksheet.Cells[i + 2, 8].Value = records[i].IdState;
+                    worksheet.Cells[i + 2, 9].Value = records[i].Description;
+                }
+
+                // Сохранение файла
+                var file = new FileInfo(path);
+                package.SaveAs(file);
+            }
+        }
     }
 }
