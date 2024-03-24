@@ -10,10 +10,11 @@ namespace VinylRecordsApplication.Classes
 {
     public class DBConnection
     {
+        public static string ConnectionSettings = "server=DESKTOP-7K0NDVP;Trusted_Connection=No;DataBase=VinylRecords;User=SA;PWD=Asdfg123";
         public static DataTable Connection(string SQL)
         {
             DataTable dataTable = new DataTable("Datatable");
-            SqlConnection sqlConnection = new SqlConnection("server=DESKTOP-7K0NDVP;Trusted_Connection=No;DataBase=VinylRecords;User=SA; PWD=Asdfg123");
+            SqlConnection sqlConnection = new SqlConnection(ConnectionSettings);
             sqlConnection.Open();
             SqlCommand sqlCommand = sqlConnection.CreateCommand();
             sqlCommand.CommandText = SQL;

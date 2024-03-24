@@ -86,5 +86,10 @@ namespace VinylRecordsApplication
         {
             OpenPage(new Pages.State.Add());
         }
+
+        private void OpenSettingsConnection(object sender, RoutedEventArgs e)
+        {
+            OpenPage(new Pages.Settings.SettingsConnection());
+        }
     }
 }

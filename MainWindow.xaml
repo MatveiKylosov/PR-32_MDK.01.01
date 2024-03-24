@@ -30,6 +30,10 @@
                 <MenuItem Header="Список" Click="OpenStateList"></MenuItem>
                 <MenuItem Header="Добавить" Click="OpenStateAdd"></MenuItem>
             </MenuItem>
+
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Подключение" Click="OpenSettingsConnection"></MenuItem>
+            </MenuItem>
         </Menu>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden" Margin="0,25,0,0"/>
     </Grid>

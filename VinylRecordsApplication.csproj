@@ -128,6 +128,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Settings\SettingsConnection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\State\Add.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,6 +175,9 @@
     </Compile>
     <Compile Include="Pages\Records\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsConnection.xaml.cs">
+      <DependentUpon>SettingsConnection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\State\Add.xaml.cs">
       <DependentUpon>Add.xaml</DependentUpon>
